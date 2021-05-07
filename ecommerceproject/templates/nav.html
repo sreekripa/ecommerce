@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--  <a class="navbar-brand" href="#">Navbar</a>-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+      {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+        <a class="nav-link" style="color:red">HAI {{user.username}} <span class="sr-only">(current)</span></a>
+      <li class="nav-item dropdown">
+      <a class="nav-link" href="{% url 'accounts:logout' %}">LOGOUT <span class="sr-only">(current)</span></a>
+      {% else %}
+      <li class="nav-item dropdown">
+      <a class="nav-link" href="{% url 'accounts:register' %}">REGISTER <span class="sr-only">(current)</span></a>
+      <li class="nav-item dropdown">
+      <a class="nav-link" href="{% url 'accounts:login' %}">LOGIN <span class="sr-only">(current)</span></a>
+      {% endif %}
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          SHOP CART
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'ecommerce:allprodcat' %}">All Products</a>
+             {% for cat in links %}
+          <a class="dropdown-item" href="{{cat.get_url}}">{{cat.name}}</a>
+            {% endfor %}
+      </li>
+      </li>
+      {% if item_count > 0 %}
+      <li class="nav-item">
+        <a class="nav-link" href="cart:cart_details"><i class="fas fa-shopping-cart">{{item_count}}</i></a>
+      </li>
+      {% endif %}
+<!--          <div class="dropdown-divider"></div>-->
+<!--          <a class="dropdown-item" href="#">login</a>-->
+<!--        </div>-->
+
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link disabled" href="#">Disabled</a>-->
+<!--      </li>-->
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="{% url 'search_app:searchresult' %}" method="get">
+      {% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="SEARCH" aria-label="Search" name='q'>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+</nav>
+<!--<nav>-->
+<!--    <ul>-->
+<!--        <li> <a href="{% url 'ecommerce:allprodcat' %}">ALL PRODUCTS</a></li>-->
+<!--        {% for cat in links %}-->
+<!--        <li><a href="{{cat.get_url}}">{{cat.name}}</a> </li>-->
+<!--        {% endfor %}-->
+<!--        <li>YOUR CART</li>-->
+<!--    </ul>-->
+<!--</nav>-->

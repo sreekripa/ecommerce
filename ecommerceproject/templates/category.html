@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadescricpition %}
+{% if category %}
+{{category.desc |truncatewords:155}}
+{% else %}
+Welcome to the cart store where you can buy awesome items.
+{% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{category.name}}-Shop cart
+    {% else %}
+        See our collections-Shop cart
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if category %}
+        <div class="row my_row_class">
+            <div class="mx-auto">
+                <p class=""><a href="{% url 'ecommerce:allprodcat' %}"> Our product collections </a>{{ category.name }} </p>
+            </div>
+        </div>
+    {% endif %}
+<div class="mx-auto" >
+    {% if category %}
+      <center>  <img class=" my_image " src="{{category.image.url}}" alt="{{category.name}}" width="300px;" height="300px;"></center>
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title">{{category.name}}</h1>
+    <p class="text-center">{{category.desc}}</p>
+</div>
+{% else %}
+<div>
+    <center><img class=" my_image_padding " src="{% static 'img/head.png' %}" alt="" style="width:900px; height:400px;"></center>
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title " style="color:red">Our Products collections</h1>
+    <P class="text-justify">Lastest styles. Men's, Women's & Kids Clothing. Easy Returns. Pay on Delivery. Top Brands. Great Offers. Huge Selection. No Cost EMI Available. Easy & Fast Delivery. Best Deals. Low Prices.</P>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row max-auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+            <div class="card text-center" style="width: 18rem;">
+                <a href="{{product.get_url}}"><img class="card-img-top " src="{{product.image.url}}" alt="{{product.name}}" style="width:250px; height:300px;">
+                </a>
+                <div class="card-body">
+                    <h4>{{product.name}}</h4>
+                    <p>${{product.price}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mx-auto">
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} activate {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
